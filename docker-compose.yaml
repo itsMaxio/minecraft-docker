@@ -3,15 +3,15 @@ services:
   minecraft:
     build:
       args:
-        TYPE: papermc
-        VERSION: 1.19.2
+        TYPE: papermc         #Select server type: vanilla or papermc
+        VERSION: 1.19.2       #Select version e.g. 1.19.2
     restart: unless-stopped
     container_name: "mcserver"
     environment:
-      MAXMEMORY: "2G"
-      MINMEMORY: "1G"
+      MAXMEMORY: "2G"         #Specify maximum memory (-Xms)
+      MINMEMORY: "1G"         #Specify initial memory (-Xmx)
     volumes:
-      - "./server:/server"
+      - "./server:/server"     #Specify directory where all "server" files are located
     ports:
       - "25565:25565"
     # The following allow `docker attach minecraft` to work
