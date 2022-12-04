@@ -1,0 +1,19 @@
+version: "3.9"
+services:
+  minecraft:
+    build:
+      args:
+        TYPE: papermc
+        VERSION: 1.19.2
+    restart: unless-stopped
+    container_name: "mcserver"
+    environment:
+      MAXMEMORY: "2G"
+      MINMEMORY: "1G"
+    volumes:
+      - "./server:/server"
+    ports:
+      - "25565:25565"
+    # The following allow `docker attach minecraft` to work
+    stdin_open: true
+    tty: true
