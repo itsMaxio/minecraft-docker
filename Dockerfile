@@ -21,14 +21,17 @@ RUN ./getjar.sh
 
 FROM eclipse-temurin:${JAVA_VERSION}
 
-ENV UID=2000
+STOPSIGNAL SIGINT
+
+ENV UID=1000
 
 VOLUME "/server"
 WORKDIR /server
 COPY --from=jarbuild /scripts /scripts
 
-RUN  /scripts/user.sh
-
-USER minecraft
+RUN apt-get update && \
+    apt-get install -y gosu && \
+    rm -rf /var/lib/apt/lists/* && \
+    gosu nobody true
 
 ENTRYPOINT [ "/scripts/start_server.sh" ]
