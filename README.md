@@ -32,24 +32,24 @@ cp .env.example .env
 
 Edit variables in `.env` file:
 
-> `JAVA_VERSION` - e.g.: **17-jre-focal**
+- `JAVA_VERSION` - e.g.: **17-jre-focal**
 
-> `VOLUME_PATH` - set your local server path e.g.: **./server**
+- `VOLUME_PATH` - set your local server path e.g.: **./server**
 
-> `LINK` - link to custom **server.jar** (example )
+- `LINK` - link to custom **server.jar** (example )
 
-> `TYPE` - **vanilla** or **papermc** (or `forge` see below)
+- `TYPE` - **vanilla** or **papermc** (or `forge` see below)
 
-> `VERSION` - e.g.: **1.19.2** (only works if `link` is not set)
+- `VERSION` - e.g.: **1.19.2** (only works if `link` is not set)
 
-> `UID` - e.g.: **1000** (set your linux user UID, `id` command) 
+- `UID` - e.g.: **1000** (set your linux user UID, `id` command) 
 
-> `MINMEMORY` - **1G** (-Xms)
+- `MINMEMORY` - **1G** (-Xms)
 
-> `MAXMEMORY` - **2G** (-Xmx)
+- `MAXMEMORY` - **2G** (-Xmx)
 
-> `PORT` - set port e.g.: **26655**
-#
+- `PORT` - set port e.g.: **26655**
+
 #### Example `.env`:
 ```bash
 JAVA_VERSION=17-jre-focal           #Select Java version
