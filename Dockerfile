@@ -23,9 +23,11 @@ FROM eclipse-temurin:${JAVA_VERSION}
 
 STOPSIGNAL SIGINT
 
-ENV UID=1000
+#ENV UID=1000
+#ENV MINMEMORY=1G
+#ENV MAXMEMORY=2G
 
-VOLUME "/server"
+VOLUME [ "/server" ]
 WORKDIR /server
 COPY --from=jarbuild /scripts /scripts
 

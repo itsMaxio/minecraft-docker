@@ -1,56 +1,89 @@
 # Minecraft Server on Docker
 
-Simple local Docker Image for Minecraft Server `vanilla` or `papermc`.
+Simple local Docker Image for Minecraft Server `vanilla`, `papermc` or custom `server.jar` (forge too).
 
 ## How to download
 
-Clone this repo
+Clone this repo:
 
 ```bash
 git clone https://github.com/itsMaxio/minecraft-docker
 ```
 
-Go to the project directory
+Go to the project directory:
 
 ```bash
 cd minecraft-docker
 ```
 
+Make scripts executable:
+
+```bash
+chmod +x ./*.sh
+```
+
 ## Before start
 
-If you want to use `docker compose`, you should edit variables in `docker-compose.yaml`:
+Make `.env` file:
 
-- `TYPE:` - **vanilla** or **papermc**
-- `VERSION:` - e.g.: **1.19.2**
-- `MAXMEMORY:` - **2G**
-- `MINMEMORY:` - **1G**
+```bash
+cp .env.example .env
+```
 
-and specify `local` directory:
+Edit variables in `.env` file:
 
-- `"./server:/server"` change `./server` to your location.
+> `JAVA_VERSION` - e.g.: **17-jre-focal**
 
-#### Example:
-```yaml
-version: "3.9"
+> `VOLUME_PATH` - set your local server path e.g.: **./server**
 
-services:
-  minecraft:
-    build:
-      args:
-        TYPE: papermc         #Select server type: vanilla or papermc
-        VERSION: 1.19.2       #Select version e.g. 1.19.2
-    restart: unless-stopped
-    container_name: "mcserver"
-    environment:
-      MAXMEMORY: "2G"         #Specify maximum memory (-Xms)
-      MINMEMORY: "1G"         #Specify initial memory (-Xmx)
-    volumes:
-      - "./server:/server"     #Specify directory where all "server" files are located
-    ports:
-      - "25565:25565"
-    # The following allow `docker attach minecraft` to work
-    stdin_open: true
-    tty: true
+> `LINK` - link to custom **server.jar** (example )
+
+> `TYPE` - **vanilla** or **papermc** (or `forge` see below)
+
+> `VERSION` - e.g.: **1.19.2** (only works if `link` is not set)
+
+> `UID` - e.g.: **1000** (set your linux user UID, `id` command) 
+
+> `MINMEMORY` - **1G** (-Xms)
+
+> `MAXMEMORY` - **2G** (-Xmx)
+
+> `PORT` - set port e.g.: **26655**
+#
+#### Example `.env`:
+```bash
+JAVA_VERSION=17-jre-focal           #Select Java version
+VOLUME_PATH=./server                #Specify local path to files
+LINK=                               #Download server.jar from link (comment or leave empty if you will not use it)
+TYPE=papermc                        #Select server type: vanilla or papermc
+VERSION=1.19.2                      #Select version e.g. 1.19.2
+UID=1000                            #Specify the UID of user inside container
+MINMEMORY=1G                        #Specify initial memory (-Xmx) 
+MAXMEMORY=2G                        #Specify maximum memory (-Xms)
+PORT=25565                          #Specify server port
+```
+
+#### If you want to use `forge` put download link and change `type` to `forge`:
+
+```bash
+LINK=https://maven.minecraftforge.net/net/minecraftforge/forge/.../forge-...-installer.jar
+TYPE=forge
+```
+`version` doesn't matter.
+
+
+#### If you don't create an `.env` file the default value of variables will be used `(via docker-compose.yaml)`:
+
+```bash
+JAVA_VERSION=17-jre-focal
+VOLUME_PATH=./server
+LINK=
+TYPE=papermc
+VERSION=1.19.2
+UID=1000
+MINMEMORY=1G
+MAXMEMORY=2G
+PORT=25565
 ```
 
 ## How to start

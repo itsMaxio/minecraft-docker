@@ -3,21 +3,21 @@ version: "3.9"
 services:
   minecraft:
     build:
-      args:
-        JAVA_VERSION: ${JAVA_VERSION}     #Select Java version
-        LINK: ${LINK}                     #Download server.jar from link
-        TYPE: ${TYPE}                     #Select server type: vanilla or papermc
-        VERSION: ${VERSION}               #Select version e.g. 1.19.2
+      args:                                                   #USE .env FILE
+        JAVA_VERSION: ${JAVA_VERSION:-17-jre-focal}           #Select Java version
+        LINK: ${LINK}                                         #Download server.jar from link
+        TYPE: ${TYPE:-papermc}                                #Select server type: vanilla or papermc
+        VERSION: ${VERSION:-1.19.2}                           #Select version e.g. 1.19.2
     restart: unless-stopped
     container_name: "mcserver"
     environment:
-      UID: ${UID}                         #Specify the UID of user inside container
-      MINMEMORY: ${MINMEMORY}             #Specify initial memory (-Xmx)    
-      MAXMEMORY: ${MAXMEMORY}             #Specify maximum memory (-Xms)       
+      UID: ${UID:-1000}                                       #Specify the UID of user inside container
+      MINMEMORY: ${MINMEMORY:-1G}                             #Specify initial memory (-Xmx)    
+      MAXMEMORY: ${MAXMEMORY:-2G}                             #Specify maximum memory (-Xms)
     volumes:
-      - "./server:/server"                #Specify directory where all "server" files are located
+      - "${VOLUME_PATH:-./server}:/server"                    #Specify directory where all "server" files are located
     ports:
-      - "${PORT}:25565"                   #Specify server port
+      - "${PORT:-25565}:25565"                                #Specify server port
     # The following allow `docker attach minecraft` to work
     stdin_open: true
     tty: true

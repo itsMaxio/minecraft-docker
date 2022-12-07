@@ -4,18 +4,37 @@ TYPE=`echo "$TYPE" | tr '[:upper:]' '[:lower:]'`
 
 if [[ ! -z $LINK ]] ; then
 
-    echo "DOWNLOADING server.jar FROM LINK"
+    if [[ $TYPE == "forge" ]] ; then
 
-    mkdir ./jar
-    curl -s -L "$LINK" --output ./jar/server.jar
+        echo "DOWNLOADING forge.jar FROM LINK"
 
-    if [[ ! -f "./jar/server.jar" ]] ; then
-        echo "SOMETHING WENT WRONG WITH FILE"
-        exit 1
+        mkdir ./jar
+        curl -s -L "$LINK" --output ./jar/forge.jar
+
+        if [[ ! -f "./jar/forge.jar" ]] ; then
+            echo "SOMETHING WENT WRONG WITH FILE"
+            exit 1
+        fi
+
+        echo "DONE"
+        exit 0
+
+    else
+
+        echo "DOWNLOADING server.jar FROM LINK"
+
+        mkdir ./jar
+        curl -s -L "$LINK" --output ./jar/server.jar
+
+        if [[ ! -f "./jar/server.jar" ]] ; then
+            echo "SOMETHING WENT WRONG WITH FILE"
+            exit 1
+
     fi
 
     echo "DONE"
     exit 0
+    fi
 
 fi
 
