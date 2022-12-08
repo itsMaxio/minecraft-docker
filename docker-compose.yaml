@@ -8,7 +8,12 @@ services:
         LINK: ${LINK}                                         #Download server.jar from link
         TYPE: ${TYPE:-papermc}                                #Select server type: vanilla or papermc
         VERSION: ${VERSION:-1.19.2}                           #Select version e.g. 1.19.2
-    restart: unless-stopped
+    deploy:
+      restart_policy:
+        condition: on-failure
+        delay: 5s
+        max_attempts: 3
+        window: 120s
     container_name: "mcserver"
     environment:
       UID: ${UID:-1000}                                       #Specify the UID of user inside container
