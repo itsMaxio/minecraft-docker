@@ -32,29 +32,25 @@ cp .env.example .env
 
 Edit variables in `.env` file:
 
-- `JAVA_VERSION` - e.g.: **17-jre-focal**
+| Name           | Default          | Description                              |   
+|----------------|------------------|------------------------------------------|
+| `JAVA_VERSION` | **17-jre-focal** | Select Java version                      |
+| `VOLUME_PATH`  | **./server**     | Specify local path to files              |
+| `LINK`         | empty            | Specify link to a custom **server.jar** (comment or leave empty if you will not use it)|
+| `TYPE`         | **papermc**      | Select server type: **vanilla** or **papermc** (or `forge` see below)   |
+| `VERSION`      | **1.19.2**       | Select version e.g.: 1.19.2, 1.17.2       |
+| `UID`          | **1000**         | Specify the UID of user inside container |
+| `MINMEMORY`    | **1G**           | Specify initial memory (-Xmx)            |
+| `MAXMEMORY`    | **2G**           | Specify maximum memory (-Xms)            |
+| `PORT`         | **25565**        | Specify server port                      |
 
-- `VOLUME_PATH` - set your local server path e.g.: **./server**
-
-- `LINK` - link to custom **server.jar** (example )
-
-- `TYPE` - **vanilla** or **papermc** (or `forge` see below)
-
-- `VERSION` - e.g.: **1.19.2** (only works if `link` is not set)
-
-- `UID` - e.g.: **1000** (set your linux user UID, `id` command) 
-
-- `MINMEMORY` - **1G** (-Xms)
-
-- `MAXMEMORY` - **2G** (-Xmx)
-
-- `PORT` - set port e.g.: **26655**
 
 #### Example `.env`:
+
 ```bash
 JAVA_VERSION=17-jre-focal           #Select Java version
 VOLUME_PATH=./server                #Specify local path to files
-LINK=                               #Download server.jar from link (comment or leave empty if you will not use it)
+#LINK=                              #Download server.jar from link (comment or leave empty if you will not use it)
 TYPE=papermc                        #Select server type: vanilla or papermc
 VERSION=1.19.2                      #Select version e.g. 1.19.2
 UID=1000                            #Specify the UID of user inside container
