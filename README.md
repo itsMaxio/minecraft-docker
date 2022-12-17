@@ -40,6 +40,7 @@ Edit variables in `.env` file:
 | `TYPE`         | **papermc**      | Select server type: **vanilla** or **papermc** (or `forge` see below)   |
 | `VERSION`      | **1.19.2**       | Select version e.g.: 1.19.2, 1.17.2       |
 | `UID`          | **1000**         | Specify the UID of user inside container |
+| `GID`          | **1000**         | Specify the GID of user inside container |
 | `MINMEMORY`    | **1G**           | Specify initial memory (-Xmx)            |
 | `MAXMEMORY`    | **2G**           | Specify maximum memory (-Xms)            |
 | `PORT`         | **25565**        | Specify server port                      |
@@ -54,6 +55,7 @@ VOLUME_PATH=./server                #Specify local path to files
 TYPE=papermc                        #Select server type: vanilla or papermc
 VERSION=1.19.2                      #Select version e.g. 1.19.2
 UID=1000                            #Specify the UID of user inside container
+GID=2000                            #Specify the GID of user inside container
 MINMEMORY=1G                        #Specify initial memory (-Xmx) 
 MAXMEMORY=2G                        #Specify maximum memory (-Xms)
 PORT=25565                          #Specify server port
@@ -77,6 +79,7 @@ LINK=
 TYPE=papermc
 VERSION=1.19.2
 UID=1000
+GID=2000
 MINMEMORY=1G
 MAXMEMORY=2G
 PORT=25565

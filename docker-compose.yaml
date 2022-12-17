@@ -17,6 +17,7 @@ services:
     container_name: "mcserver"
     environment:
       UID: ${UID:-1000}                                       #Specify the UID of user inside container
+      GID: ${GID:-1000}                                       #Specify the GID of user inside container
       MINMEMORY: ${MINMEMORY:-1G}                             #Specify initial memory (-Xmx)    
       MAXMEMORY: ${MAXMEMORY:-2G}                             #Specify maximum memory (-Xms)
     volumes:
