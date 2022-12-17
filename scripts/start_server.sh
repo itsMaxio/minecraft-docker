@@ -11,7 +11,7 @@ chown -R $UID:$GID /server
 
 JAR_TYPE=`ls /scripts/jar`
 
-echo UID: $UID GID: $GID JAR_TYPE: $JAR_TYPE MINMEMORY: $MINMEMORY MAXMEMORY: $MAXMEMORY
+echo "UID: $UID GID: $GID JAR_TYPE: $JAR_TYPE MINMEMORY: $MINMEMORY MAXMEMORY: $MAXMEMORY"
 
 if [[ $JAR_TYPE == "forge.jar" ]] ; then 
 
