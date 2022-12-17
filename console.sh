@@ -1,4 +1,6 @@
-docker logs --follow mcserver
+#!/bin/bash
+
+docker logs mcserver
 
 echo "DEFAULT DETACH KEY: @ (ctrl + 2)"
 

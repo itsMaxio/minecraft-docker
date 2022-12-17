@@ -9,6 +9,11 @@ services:
         TYPE: ${TYPE:-papermc}                                #Select server type: vanilla or papermc
         VERSION: ${VERSION:-1.19.2}                           #Select version e.g. 1.19.2
     deploy:
+      resources:
+        limits:
+          cpus: '${MAXCPU:-ALL}'
+        reservations:
+          cpus: '${MINCPU:-ALL}'
       restart_policy:
         condition: on-failure
         delay: 5s
@@ -17,7 +22,7 @@ services:
     container_name: "mcserver"
     environment:
       UID: ${UID:-1000}                                       #Specify the UID of user inside container
-      GID: ${GID:-1000}                                       #Specify the GID of user inside container
+      GID: ${GID:-$UID}                                       #Specify the GID of user inside container
       MINMEMORY: ${MINMEMORY:-1G}                             #Specify initial memory (-Xmx)    
       MAXMEMORY: ${MAXMEMORY:-2G}                             #Specify maximum memory (-Xms)
     volumes:
