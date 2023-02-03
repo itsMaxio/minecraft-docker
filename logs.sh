@@ -2,4 +2,4 @@
 
 source ./.env
 
-docker logs --follow mcserver
+docker logs --follow $SERVER_NAME
