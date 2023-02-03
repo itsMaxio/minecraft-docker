@@ -15,13 +15,13 @@ ARG LINK
 ARG TYPE=papermc
 ARG VERSION=1.19.2
 
-RUN ./getjar.sh
+RUN ./get_jar.sh
 
 
 
 FROM eclipse-temurin:${JAVA_VERSION}
 
-STOPSIGNAL SIGINT
+STOPSIGNAL SIGTERM
 
 ENV UID=1000
 ENV GID=1000
@@ -36,5 +36,7 @@ RUN apt-get update && \
     apt-get install -y gosu && \
     rm -rf /var/lib/apt/lists/* && \
     gosu nobody true
+
+# RUN /scripts/update.sh
 
 ENTRYPOINT [ "/scripts/start_server.sh" ]

@@ -19,8 +19,9 @@ services:
         delay: 5s
         max_attempts: 3
         window: 120s
-    container_name: "mcserver"
+    container_name: ${SERVER_NAME}
     environment:
+      TYPE: ${TYPE:-papermc}                                #Select server type: vanilla or papermc
       UID: ${UID:-1000}                                       #Specify the UID of user inside container
       GID: ${GID:-$UID}                                       #Specify the GID of user inside container
       MINMEMORY: ${MINMEMORY:-1G}                             #Specify initial memory (-Xmx)    
