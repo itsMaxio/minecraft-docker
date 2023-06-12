@@ -3,9 +3,7 @@
 TYPE=`echo "$TYPE" | tr '[:upper:]' '[:lower:]'`
 
 if [[ ! -z $LINK ]] ; then
-
     if [[ $TYPE == "forge" ]] ; then
-
         echo "DOWNLOADING forge.jar FROM LINK"
         mkdir /scripts/jar
         curl -s -L "$LINK" --output /scripts/jar/forge.jar
@@ -17,9 +15,7 @@ if [[ ! -z $LINK ]] ; then
 
         echo "DONE"
         exit 0
-
     else
-
         echo "DOWNLOADING server.jar FROM LINK"
         mkdir /scripts/jar
         curl -s -L "$LINK" --output /scripts/jar/server.jar
@@ -27,7 +23,6 @@ if [[ ! -z $LINK ]] ; then
         if [[ ! -f "/scripts/jar/server.jar" ]] ; then
             echo "SOMETHING WENT WRONG WITH FILE"
             exit 1
-
     fi
 
     echo "DONE"
@@ -37,20 +32,18 @@ if [[ ! -z $LINK ]] ; then
 fi
 
 if [[ $TYPE == "vanilla" ]] ; then 
-
     VANILLA_VERSION_URL=`curl -s 'GET' "https://launchermeta.mojang.com/mc/game/version_manifest.json" -H 'accept: application/json' | jq -r '."versions"[] | select(.id=="'$VERSION'")'.url`
-    if [[ -z $VANILLA_VERSION_URL ]] ; then
 
+    if [[ -z $VANILLA_VERSION_URL ]] ; then
         echo "VERSION NOT FOUND"
         exit 1
-
     fi
 
     VANILLA_DOWNLOAD_URL=` curl -s 'GET' "$VANILLA_VERSION_URL" -H 'accept: application/json' | jq -r ."downloads"."server"."url"`
     echo "DOWNLOADING $TYPE $VERSION server.jar"
     mkdir /scripts/jar
     curl -s -L "$VANILLA_DOWNLOAD_URL" --output /scripts/jar/server.jar
-
+    
     if [[ ! -f "/scripts/jar/server.jar" ]] ; then
         echo "SOMETHING WENT WRONG WITH FILE"
         exit 1
@@ -58,16 +51,13 @@ if [[ $TYPE == "vanilla" ]] ; then
 
     echo "DONE"
     exit 0
-
+    
 elif [[ $TYPE == "papermc" ]] ; then
-
     IF_EXISTS=`curl -s 'GET' "https://api.papermc.io/v2/projects/paper/versions/$VERSION" -H 'accept: application/json' | jq -r ."error"`
 
     if [[ $IF_EXISTS != "null" ]] ; then
-
         echo "VERSION NOT FOUND"
         exit 1
-
     fi
 
     PAPER_LAST_VERSION=`curl -s 'GET' "https://api.papermc.io/v2/projects/paper/versions/$VERSION" -H 'accept: application/json' | jq -r '.builds | max'`
@@ -85,8 +75,6 @@ elif [[ $TYPE == "papermc" ]] ; then
     exit 0
 
 elif [[ $TYPE == "custom" ]] ; then
-
     echo "TYPE IS SET TO: $CUSTOM, SKIPPING DOWNLOAD STAGE"
     exit 0
-
 fi

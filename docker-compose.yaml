@@ -19,7 +19,7 @@ services:
         delay: 5s
         max_attempts: 3
         window: 120s
-    container_name: ${SERVER_NAME}
+    container_name: ${SERVER_NAME:-mcserver}
     environment:
       TYPE: ${TYPE:-papermc}                                #Select server type: vanilla or papermc
       UID: ${UID:-1000}                                       #Specify the UID of user inside container
