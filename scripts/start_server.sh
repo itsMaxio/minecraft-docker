@@ -12,32 +12,52 @@ chown -R $UID:$GID /server
 JAR_TYPE=`echo "$TYPE" | tr '[:upper:]' '[:lower:]'`
 JAR_FILE="/server/server.jar"
 
-echo "UID: $UID GID: $GID JAR_TYPE: $JAR_TYPE MINMEMORY: $MINMEMORY MAXMEMORY: $MAXMEMORY"
+echo "WELCOME..."
+echo "UID: $UID GID: $GID JAR_TYPE: $JAR_TYPE MIN_MEMORY: $MIN_MEMORY MAX_MEMORY: $MAX_MEMORY"
 
 if [[ $JAR_TYPE == "forge" ]] ; then 
 
     if [[ ! -d "/server/libraries/net/minecraftforge/forge" ]] ; then
-        echo "NO libraries, TRYING TO DOWNLOAD"
-        gosu minecraft java -jar /scripts/jar/forge.jar --installServer
+        echo "No libraries, trying to download."
+        gosu minecraft java -jar /server/forge.jar --installServer
     fi
 
     FORGE_VERSION=`ls /server/libraries/net/minecraftforge/forge`
-    echo "STARTING $JAR_TYPE"
-    exec gosu minecraft java -Xmx$MAXMEMORY -Xms$MINMEMORY @/server/libraries/net/minecraftforge/forge/$FORGE_VERSION/unix_args.txt "$@" nogui
+    echo "Strating $JAR_TYPE"
+    exec gosu minecraft java -Xmx$MAX_MEMORY -Xms$MIN_MEMORY @/server/libraries/net/minecraftforge/forge/$FORGE_VERSION/unix_args.txt "$@" nogui
 
-elif [[ $JAR_TYPE == "custom" ]] ; then
+elif [[ $JAR_TYPE == "file" ]] ; then
 
     if  [[ ! -f $JAR_FILE ]]; then
-        echo "FILE DOES NOT EXIST, EXITING"
+        echo "File does not exist... exiting!"
         exit 1
     fi
 
-    exec gosu minecraft java -Xmx$MAXMEMORY -Xms$MINMEMORY -jar /server/server.jar nogui
+    echo "File found, starting server."
+    exec gosu minecraft java -Xmx$MAX_MEMORY -Xms$MIN_MEMORY -jar /server/server.jar nogui
+
+elif [[ $JAR_TYPE == "link" ]] ; then
+    
+    if [[ -z $LINK ]] ; then
+        echo "No link url... exiting!"
+        exit 1
+    fi
+
+    echo "Downloading server.jar from link."
+    curl -s -L "$LINK" --output /scripts/server.jar
+
+    if [[ ! -f "/scripts/server.jar" ]] ; then
+        echo "Something went wrong with file... Exiting!"
+        exit 1
+    fi
+
+    echo "Download complete, staring server."
+    exec gosu minecraft java -Xmx$MAX_MEMORY -Xms$MIN_MEMORY -jar /scripts/server.jar nogui
 
 else
 
-    echo "STARTING $JAR_TYPE"
-    exec gosu minecraft java -Xmx$MAXMEMORY -Xms$MINMEMORY -jar /scripts/jar/server.jar nogui
-    
+    echo "Wrong type: $JAR_TYPE... exiting!"
+    exit 1
+
 fi
 

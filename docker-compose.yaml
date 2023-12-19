@@ -4,10 +4,7 @@ services:
   minecraft:
     build:
       args:                                                   #USE .env FILE
-        JAVA_VERSION: ${JAVA_VERSION:-17-jre-focal}           #Select Java version
-        LINK: ${LINK}                                         #Download server.jar from link
-        TYPE: ${TYPE:-papermc}                                #Select server type: vanilla or papermc
-        VERSION: ${VERSION:-1.19.2}                           #Select version e.g. 1.19.2
+        JAVA_VERSION: ${JAVA_VERSION:-17-focal}           #Select Java version
     deploy:
       resources:
         limits:
@@ -21,9 +18,10 @@ services:
         window: 120s
     container_name: ${SERVER_NAME:-mcserver}
     environment:
-      TYPE: ${TYPE:-papermc}                                #Select server type: vanilla or papermc
+      TYPE: ${TYPE:-file}                                #Select server type: vanilla or papermc
+      LINK: ${LINK:-}
       UID: ${UID:-1000}                                       #Specify the UID of user inside container
-      GID: ${GID:-$UID}                                       #Specify the GID of user inside container
+      GID: ${GID:-1000}                                       #Specify the GID of user inside container
       MINMEMORY: ${MINMEMORY:-1G}                             #Specify initial memory (-Xmx)    
       MAXMEMORY: ${MAXMEMORY:-2G}                             #Specify maximum memory (-Xms)
     volumes:

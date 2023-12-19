@@ -1,23 +1,4 @@
-ARG JAVA_VERSION=17-jre-focal
-
-
-
-FROM ubuntu:20.04 AS jarbuild
-
-RUN apt update && apt install -y \
-    curl \
-    jq
-
-WORKDIR /scripts
-COPY --chmod=755 ./scripts/ .
-
-ARG LINK
-ARG TYPE=papermc
-ARG VERSION=1.19.2
-
-RUN ./get_jar.sh
-
-
+ARG JAVA_VERSION=17-focal
 
 FROM eclipse-temurin:${JAVA_VERSION}
 
@@ -25,18 +6,20 @@ STOPSIGNAL SIGTERM
 
 ENV UID=1000
 ENV GID=1000
-ENV MINMEMORY=1G
-ENV MAXMEMORY=2G
+ENV MIN_MEMORY=1G
+ENV MAX_MEMORY=2G
+ENV TYPE=normal
+
+COPY scripts /scripts
 
 VOLUME [ "/server" ]
 WORKDIR /server
-COPY --from=jarbuild /scripts /scripts
 
 RUN apt-get update && \
-    apt-get install -y gosu && \
+    apt-get install -y gosu dos2unix && \
+    dos2unix /scripts/* && \
+    apt-get --purge remove -y dos2unix && \
     rm -rf /var/lib/apt/lists/* && \
     gosu nobody true
-
-# RUN /scripts/update.sh
 
 ENTRYPOINT [ "/scripts/start_server.sh" ]
