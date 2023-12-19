@@ -23,7 +23,7 @@ if [[ $JAR_TYPE == "forge" ]] ; then
     fi
 
     FORGE_VERSION=`ls /server/libraries/net/minecraftforge/forge`
-    echo "Strating $JAR_TYPE"
+    echo "Strating $JAR_TYPE."
     exec gosu minecraft java -Xmx$MAX_MEMORY -Xms$MIN_MEMORY @/server/libraries/net/minecraftforge/forge/$FORGE_VERSION/unix_args.txt "$@" nogui
 
 elif [[ $JAR_TYPE == "file" ]] ; then
