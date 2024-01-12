@@ -8,7 +8,7 @@ ENV UID=1000
 ENV GID=1000
 ENV MIN_MEMORY=1G
 ENV MAX_MEMORY=2G
-ENV TYPE=normal
+ENV TYPE=file
 
 COPY scripts /scripts
 
@@ -22,4 +22,4 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/* && \
     gosu nobody true
 
-ENTRYPOINT [ "/scripts/start_server.sh" ]
+ENTRYPOINT [ "/scripts/start.sh" ]
