@@ -42,12 +42,17 @@ printLog "START" "Starting as: $TYPE"
 
 if [[ $TYPE == "forge" ]] ; then 
 
-    if [[ ! -d "/server/libraries/net/minecraftforge/forge" ]] ; then
-        echo -e "No libraries, trying to install\n"
+    if [[ -f "/server/forge.jar" ]] ; then
+        echo "Detected a new forge file"
+        echo -e "Trying to install\n"
         gosu minecraft java -jar /server/forge.jar --installServer
+
+        echo -e "\nDeleteing forge file"
+        rm -f /server/forge.jar
+        echo -e "For a new forge import the file again\n"
     fi
 
-    FORGE_VERSION=`ls /server/libraries/net/minecraftforge/forge`
+    FORGE_VERSION=`ls -1t /server/libraries/net/minecraftforge/forge | head -1`
     
     echo -e "Install complete, staring server\n"
     exec gosu minecraft java -Xmx$MAX_MEMORY -Xms$MIN_MEMORY @/server/libraries/net/minecraftforge/forge/$FORGE_VERSION/unix_args.txt "$@" nogui
